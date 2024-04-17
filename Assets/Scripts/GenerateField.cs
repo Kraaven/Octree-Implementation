@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,7 @@ using UnityEngine;
 public class GenerateField : MonoBehaviour
 {
     public Node TileNodePrefab;
-    [SerializeField] private float fieldsize;
+    public float fieldsize;
 
     public float MinNodeSize;
 
@@ -17,21 +18,31 @@ public class GenerateField : MonoBehaviour
             this.enabled = false;
         }
         
-        var Root = Instantiate(TileNodePrefab);
-        Root.InitiateNode(fieldsize);
-        Root.SplitNode();
-        
+        RegenrateField();
+        // StartCoroutine(Generate());
+
     }
 
-    IEnumerator Cycle()
+    // private void FixedUpdate()
+    // {
+    //     RegenrateField();
+    // }
+
+    // IEnumerator Generate()
+    // {
+    //     while (true)
+    //     {
+    //         RegenrateField();
+    //         yield return new WaitForSeconds(0.5f);
+    //     }
+    // }
+
+    public void RegenrateField()
     {
         Debug.Log("Cycled");
         DeleteAllChildren(transform);
         var Root = Instantiate(TileNodePrefab);
         Root.InitiateNode(fieldsize);
-        Root.SplitNode();
-
-        yield return new WaitForSeconds(3);
     }
     
     void DeleteAllChildren(Transform parent)

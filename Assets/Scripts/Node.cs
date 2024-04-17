@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Node : MonoBehaviour
 {
@@ -9,6 +11,7 @@ public class Node : MonoBehaviour
     public GenerateField Origin;
     public Node[] SubNodes;
     public bool generated;
+    public bool Detected;
     
     public void InitiateNode(float size)
     {
@@ -17,6 +20,7 @@ public class Node : MonoBehaviour
         NodeSize = size;
         transform.localScale = Vector3.one * size;
         transform.parent = Origin.transform;
+        
     }
 
 
@@ -45,28 +49,26 @@ public class Node : MonoBehaviour
             {
                 //Subnode.transform.parent = transform;
                 Subnode.InitiateNode(OffsetNumber*2);
-            }
 
-            SubNodes[Random.Range(0,7)].SplitNode();
+                // if (!Subnode.Detected)
+                // {
+                //     Destroy(Subnode);
+                // }
+            }
+            
             // 
         }
         else
         {
             Debug.Log("Reached Resolution Limit");
-            var pointer = Instantiate(GameObject.CreatePrimitive(PrimitiveType.Cube),transform);
-            pointer.name = "Pointer";
-            pointer.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
         }
     }
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        
+        Debug.Log(other.name);
+        Detected = true;
+        SplitNode();
     }
 }
