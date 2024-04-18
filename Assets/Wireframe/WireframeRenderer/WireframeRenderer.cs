@@ -27,7 +27,7 @@ public class WireframeRenderer : MonoBehaviour
     public void setColor(float size)
     {
         LineMat = new Material(lineMaterial);
-        LineMat.color *= size;
+        LineMat.color = Color.Lerp(Color.cyan,Color.red,size);
     }
 
     [Serializable]
