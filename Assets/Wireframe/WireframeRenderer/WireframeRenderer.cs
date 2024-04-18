@@ -16,12 +16,18 @@ public class WireframeRenderer : MonoBehaviour
     [SerializeField] bool includeDiagonals = false;
     [SerializeField] Material lineMaterial;
     [SerializeField] float width = 0.01f;
-
+    private Material LineMat;
     [SerializeField] List<LineSegment> lineSegments = new List<LineSegment>();
 
     public enum RenderMode
     {
         Lines, Quads
+    }
+
+    public void setColor(float size)
+    {
+        LineMat = new Material(lineMaterial);
+        LineMat.color *= size;
     }
 
     [Serializable]
@@ -44,6 +50,10 @@ public class WireframeRenderer : MonoBehaviour
 
     public void OnRenderObject()
     {
+        if (LineMat == null)
+        {
+            return;
+        }
         /* Prevent rendering to every small preview window in the editor */
         if (Camera.current && Camera.current.cameraType == CameraType.Preview)
         {
@@ -55,7 +65,7 @@ public class WireframeRenderer : MonoBehaviour
             return;
         }
 
-        lineMaterial.SetPass(0);
+        LineMat.SetPass(0);
         GL.PushMatrix();
         GL.MultMatrix(transform.localToWorldMatrix);
 

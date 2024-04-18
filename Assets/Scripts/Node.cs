@@ -12,6 +12,7 @@ public class Node : MonoBehaviour
     public Node[] SubNodes;
     public bool generated;
     public bool Detected;
+    private float colorstrength;
     
     public void InitiateNode(float size)
     {
@@ -20,13 +21,14 @@ public class Node : MonoBehaviour
         NodeSize = size;
         transform.localScale = Vector3.one * size;
         transform.parent = Origin.transform;
-        
+        GetComponent<WireframeRenderer>().setColor(Mathf.Log(NodeSize) / Mathf.Log(Origin.fieldsize));
+
     }
 
 
     public void SplitNode()
     {
-        Debug.Log(NodeSize/2);
+        // Debug.Log(NodeSize/2);
         
         if (NodeSize/2 >= FindObjectOfType<GenerateField>().MinNodeSize)
         {
@@ -47,27 +49,20 @@ public class Node : MonoBehaviour
 
             foreach (var Subnode in SubNodes)
             {
-                //Subnode.transform.parent = transform;
                 Subnode.InitiateNode(OffsetNumber*2);
-
-                // if (!Subnode.Detected)
-                // {
-                //     Destroy(Subnode);
-                // }
             }
             
             // 
         }
         else
         {
-            Debug.Log("Reached Resolution Limit");
+            // Debug.Log("Reached Resolution Limit");
         }
     }
     // Start is called before the first frame update
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.name);
         Detected = true;
         SplitNode();
     }

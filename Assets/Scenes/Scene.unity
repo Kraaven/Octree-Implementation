@@ -557,7 +557,7 @@ MonoBehaviour:
   TileNodePrefab: {fileID: 3484206695051616332, guid: b26034c41000e5644850a0e50f07dcea,
     type: 3}
   fieldsize: 32
-  MinNodeSize: 2
+  MinNodeSize: 0.5
 --- !u!4 &981143014
 Transform:
   m_ObjectHideFlags: 0
